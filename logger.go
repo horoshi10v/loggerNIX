@@ -14,5 +14,5 @@ func Warning(data interface{}) {
 	fmt.Println("Log warning: ", data)
 }
 func Fatal(data interface{}) {
-	fmt.Println("Log fatal", data)
+	fmt.Println("Logger fatal", data)
 }
