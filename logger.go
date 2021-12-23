@@ -41,33 +41,40 @@ func LoggInFile(logPath, level, msg, time string) {
 	writer.Flush()
 }
 
-func PrintMsg(tag, message string, toFile bool) {
+func PrintMsg(tag, message string) {
 	timeF := time.Now().Format("15:04:05.000")
-	if !toFile {
-		fmt.Printf("%v \nMessage: %v \n Time:%v \n",
-			tag, message, timeF)
-	} else {
-		var logPath string
-		LoggInFile(logPath, tag, message, timeF)
-	}
+	fmt.Printf("%v \nMessage: %v \nTime:%v \n",
+		tag, message, timeF)
 }
 
-func Info(message string, toFile bool) {
-	tag := TagInfo
-	PrintMsg(tag, message, toFile)
+func Info(message string) {
+	PrintMsg(TagInfo, message)
+}
+func InfoF(tag, message, path string) {
+	timeF := time.Now().Format("15:04:05.000")
+	LoggInFile(path, TagInfo, message, timeF)
 }
 
-func Error(message string, toFile bool) {
-	tag := TagError
-	PrintMsg(tag, message, toFile)
+func Error(message string) {
+	PrintMsg(TagError, message)
+}
+func ErrorF(tag, message, path string) {
+	timeF := time.Now().Format("15:04:05.000")
+	LoggInFile(path, TagError, message, timeF)
 }
 
-func Warning(message string, toFile bool) {
-	tag := TagWarning
-	PrintMsg(tag, message, toFile)
+func Warning(message string) {
+	PrintMsg(TagWarning, message)
+}
+func WarningF(tag, message, path string) {
+	timeF := time.Now().Format("15:04:05.000")
+	LoggInFile(path, TagWarning, message, timeF)
 }
 
-func Debug(message string, toFile bool) {
-	tag := TagDebug
-	PrintMsg(tag, message, toFile)
+func Debug(message string) {
+	PrintMsg(TagDebug, message)
+}
+func DebugF(tag, message, path string) {
+	timeF := time.Now().Format("15:04:05.000")
+	LoggInFile(path, TagDebug, message, timeF)
 }
