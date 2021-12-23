@@ -12,6 +12,7 @@ const (
 	TagError   = "Error: "
 	TagWarning = "Warning: "
 	TagDebug   = "Debug: "
+	timeFormat = "15:04:05.000"
 	//FlagsTime  = time.Second | time.Millisecond | time.Microsecond
 )
 
@@ -42,39 +43,35 @@ func LoggInFile(logPath, level, msg, time string) {
 }
 
 func PrintMsg(tag, message string) {
-	timeF := time.Now().Format("15:04:05.000")
+	timeF := time.Now().Format(timeFormat)
 	fmt.Printf("%v \nMessage: %v \nTime:%v \n",
 		tag, message, timeF)
 }
-
 func Info(message string) {
 	PrintMsg(TagInfo, message)
 }
-func InfoF(tag, message, path string) {
-	timeF := time.Now().Format("15:04:05.000")
+func InfoF(message, path string) {
+	timeF := time.Now().Format(timeFormat)
 	LoggInFile(path, TagInfo, message, timeF)
 }
-
 func Error(message string) {
 	PrintMsg(TagError, message)
 }
-func ErrorF(tag, message, path string) {
-	timeF := time.Now().Format("15:04:05.000")
+func ErrorF(message, path string) {
+	timeF := time.Now().Format(timeFormat)
 	LoggInFile(path, TagError, message, timeF)
 }
-
 func Warning(message string) {
 	PrintMsg(TagWarning, message)
 }
-func WarningF(tag, message, path string) {
-	timeF := time.Now().Format("15:04:05.000")
+func WarningF(message, path string) {
+	timeF := time.Now().Format(timeFormat)
 	LoggInFile(path, TagWarning, message, timeF)
 }
-
 func Debug(message string) {
 	PrintMsg(TagDebug, message)
 }
-func DebugF(tag, message, path string) {
-	timeF := time.Now().Format("15:04:05.000")
+func DebugF(message, path string) {
+	timeF := time.Now().Format(timeFormat)
 	LoggInFile(path, TagDebug, message, timeF)
 }
