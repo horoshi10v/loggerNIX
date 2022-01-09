@@ -16,6 +16,14 @@ const (
 	//FlagsTime  = time.Second | time.Millisecond | time.Microsecond
 )
 
+type logger struct {
+	logPath string
+}
+
+func NewLogger(path string) logger {
+	return logger{logPath: path}
+}
+
 func LoggInFile(logPath, level, msg, time string) {
 	buff := []string{
 		level,
@@ -47,31 +55,31 @@ func PrintMsg(tag, message string) {
 	fmt.Printf("%v \nMessage: %v \nTime:%v \n",
 		tag, message, timeF)
 }
-func Info(message string) {
+func (l *logger) Info(message string) {
 	PrintMsg(TagInfo, message)
 }
-func InfoF(message, path string) {
+func (l *logger) InfoF(message string) {
 	timeF := time.Now().Format(timeFormat)
-	LoggInFile(path, TagInfo, message, timeF)
+	LoggInFile(l.logPath, TagInfo, message, timeF)
 }
-func Error(message string) {
+func (l *logger) Error(message string) {
 	PrintMsg(TagError, message)
 }
-func ErrorF(message, path string) {
+func (l *logger) ErrorF(message string) {
 	timeF := time.Now().Format(timeFormat)
-	LoggInFile(path, TagError, message, timeF)
+	LoggInFile(l.logPath, TagError, message, timeF)
 }
-func Warning(message string) {
+func (l *logger) Warning(message string) {
 	PrintMsg(TagWarning, message)
 }
-func WarningF(message, path string) {
+func (l *logger) WarningF(message string) {
 	timeF := time.Now().Format(timeFormat)
-	LoggInFile(path, TagWarning, message, timeF)
+	LoggInFile(l.logPath, TagWarning, message, timeF)
 }
-func Debug(message string) {
+func (l *logger) Debug(message string) {
 	PrintMsg(TagDebug, message)
 }
-func DebugF(message, path string) {
+func (l *logger) DebugF(message string) {
 	timeF := time.Now().Format(timeFormat)
-	LoggInFile(path, TagDebug, message, timeF)
+	LoggInFile(l.logPath, TagDebug, message, timeF)
 }
