@@ -8,27 +8,58 @@ import (
 )
 
 const (
-	TagInfo    = "Info: "
-	TagError   = "Error: "
-	TagWarning = "Warning: "
-	TagDebug   = "Debug: "
-	timeFormat = "15:04:05.000"
-	//FlagsTime  = time.Second | time.Millisecond | time.Microsecond
+	TagInfo    = "INFO:\t"
+	TagError   = "ERROR:\t"
+	TagWarning = "WARNING:\t"
+	TagDebug   = "DEBUG:\t"
+	timeFormat = time.RFC1123
 )
 
-type logger struct {
-	logPath string
+var timeF = time.Now().Format(timeFormat)
+
+type Logger struct {
+	FilePath string
 }
 
-func NewLogger(path string) logger {
-	return logger{logPath: path}
+func NewLogger(File string) Logger {
+	return Logger{FilePath: File}
 }
 
-func LoggInFile(logPath, level, msg, time string) {
+func (l *Logger) PrintMsg(tag, message string) {
+	msg := timeF + " " + tag + " " + message + "\n"
+	fmt.Printf(msg)
+}
+
+func (l *Logger) InfoFile(message string) {
+	LoggInFile(l.FilePath, TagInfo, message)
+}
+func (l *Logger) Info(message string) {
+	l.PrintMsg(TagInfo, message)
+}
+func (l *Logger) Error(message string) {
+	l.PrintMsg(TagError, message)
+}
+func (l *Logger) ErrorFile(message string) {
+	LoggInFile(l.FilePath, TagError, message)
+}
+func (l *Logger) Warning(message string) {
+	l.PrintMsg(TagWarning, message)
+}
+func (l *Logger) WarningFile(message string) {
+	LoggInFile(l.FilePath, TagWarning, message)
+}
+func (l *Logger) Debug(message string) {
+	l.PrintMsg(TagDebug, message)
+}
+func (l *Logger) DebugFile(message string) {
+	LoggInFile(l.FilePath, TagDebug, message)
+}
+
+func LoggInFile(logPath, level, msg string) {
 	buff := []string{
 		level,
 		msg,
-		time,
+		timeF,
 	}
 	lf, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 	writer := bufio.NewWriter(lf)
@@ -48,38 +79,4 @@ func LoggInFile(logPath, level, msg, time string) {
 		writer.WriteString("\n")
 	}
 	writer.Flush()
-}
-
-func PrintMsg(tag, message string) {
-	timeF := time.Now().Format(timeFormat)
-	fmt.Printf("%v \nMessage: %v \nTime:%v \n",
-		tag, message, timeF)
-}
-func (l *logger) Info(message string) {
-	PrintMsg(TagInfo, message)
-}
-func (l *logger) InfoF(message string) {
-	timeF := time.Now().Format(timeFormat)
-	LoggInFile(l.logPath, TagInfo, message, timeF)
-}
-func (l *logger) Error(message string) {
-	PrintMsg(TagError, message)
-}
-func (l *logger) ErrorF(message string) {
-	timeF := time.Now().Format(timeFormat)
-	LoggInFile(l.logPath, TagError, message, timeF)
-}
-func (l *logger) Warning(message string) {
-	PrintMsg(TagWarning, message)
-}
-func (l *logger) WarningF(message string) {
-	timeF := time.Now().Format(timeFormat)
-	LoggInFile(l.logPath, TagWarning, message, timeF)
-}
-func (l *logger) Debug(message string) {
-	PrintMsg(TagDebug, message)
-}
-func (l *logger) DebugF(message string) {
-	timeF := time.Now().Format(timeFormat)
-	LoggInFile(l.logPath, TagDebug, message, timeF)
 }
